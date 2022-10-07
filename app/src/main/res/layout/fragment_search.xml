@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.SearchFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/PriceLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:drawableRight="@drawable/ic_arrow_down"
+                    android:scrollHorizontally="false"
+                    android:text="Price"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp" />
+
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/range_slider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/slider_desc"
+                        android:valueFrom="0.0"
+                        android:valueTo="100.0"
+                        app:values="@array/initial_slider_values" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:drawableRight="@drawable/ic_arrow_down"
+                    android:text="TextView"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/star1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="★" />
+
+                    <CheckBox
+                        android:id="@+id/star2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="★★" />
+
+                    <CheckBox
+                        android:id="@+id/star3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="★★★" />
+
+                    <CheckBox
+                        android:id="@+id/star4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="★★★★" />
+
+                    <CheckBox
+                        android:id="@+id/star5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="★★★★★" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/Sexo"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:drawableRight="@drawable/ic_arrow_down"
+                    android:text="Sexo"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/Mujer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mujer" />
+
+                    <CheckBox
+                        android:id="@+id/Hombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Hombre" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/Localidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:drawableRight="@drawable/ic_arrow_down"
+                    android:text="Localidad"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/Localidadinput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="City"
+                        android:inputType="textPersonName" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/Especialidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:drawableRight="@drawable/ic_arrow_down"
+                    android:text="Especialidad"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/Especialidadinput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Specialty"
+                        android:inputType="textPersonName" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/Searchbutton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Apply" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
