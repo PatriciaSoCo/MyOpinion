@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "160007143510",
+    "project_id": "myopinion-8b151",
+    "storage_bucket": "myopinion-8b151.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160007143510:android:bc639161432d61fa133bf7",
+        "android_client_info": {
+          "package_name": "com.patriciasoco.myopinion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160007143510-k5eqed1pq9oc5cje0svhipipggt1idqm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.patriciasoco.myopinion",
+            "certificate_hash": "4097ab97f4c09f4cfe6e04ffc14177a7ddb76b0c"
+          }
+        },
+        {
+          "client_id": "160007143510-p69dncarhn2p8akf4d8n71pfiaam3lk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfXWt-5AVpGFQmsufxqN9dAagbXbn6-pI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160007143510-p69dncarhn2p8akf4d8n71pfiaam3lk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
