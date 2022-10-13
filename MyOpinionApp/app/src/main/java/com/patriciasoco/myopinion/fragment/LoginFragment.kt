@@ -2,7 +2,6 @@ package com.patriciasoco.myopinion.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -67,10 +66,7 @@ class LoginFragment : Fragment() {
 
         val currentUser = auth.currentUser
         if(currentUser != null){
-            val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, MyProfileFragment())
-            transaction.disallowAddToBackStack()
-            transaction.commit()
+            showmyprofile (currentUser)
         }
     }
 
@@ -124,15 +120,23 @@ class LoginFragment : Fragment() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("CreateUser", "createUserWithEmail:success")
                         val user = auth.currentUser
-                        val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
-                        transaction.replace(R.id.fragment_container, LoginFragment())
-                        transaction.disallowAddToBackStack()
-                        transaction.commit()
+                        sendemailverification (user!!)
+                        Toast.makeText(this.requireContext(), "We have sent a verification email",
+                            Toast.LENGTH_SHORT).show()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("CreateUser", "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(this.requireContext(), "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
+                        Log.d("Create User", task.exception?.message!!)
+                        if (task.exception?.message!!.contains("INVALID_ARGUMENT")){
+                            Toast.makeText(this.requireContext(), "We have sent a verification email",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                        else {
+                            Toast.makeText(
+                                this.requireContext(), "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
         }
@@ -146,10 +150,7 @@ class LoginFragment : Fragment() {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d("LoginUser", "loginUserWithEmail:success")
                         val user = auth.currentUser
-                        val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
-                        transaction.replace(R.id.fragment_container, MyProfileFragment())
-                        transaction.disallowAddToBackStack()
-                        transaction.commit()
+                        showmyprofile (user!!)
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w("LoginUser", "loginUserWithEmail:failure", task.exception)
@@ -205,10 +206,7 @@ class LoginFragment : Fragment() {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("sigingoogle", "signInWithCredential:success")
                             val user = auth.currentUser
-                            val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
-                            transaction.replace(R.id.fragment_container, MyProfileFragment())
-                            transaction.disallowAddToBackStack()
-                            transaction.commit()
+                            showmyprofile (user!!)
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("sigingoogle", "signInWithCredential:failure", task.exception)
@@ -270,10 +268,8 @@ class LoginFragment : Fragment() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("signinwithphone", "signInWithCredential:success")
-                    val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
-                    transaction.replace(R.id.fragment_container, MyProfileFragment())
-                    transaction.disallowAddToBackStack()
-                    transaction.commit()
+                   val user =auth.currentUser
+                    showmyprofile (user!!)
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w("signinwithphone", "signInWithCredential:failure", task.exception)
@@ -286,4 +282,41 @@ class LoginFragment : Fragment() {
                 }
             }
     }
+    fun showmyprofile (user: FirebaseUser){
+        user.getIdToken(false).addOnSuccessListener { result ->
+            val isAdmin: Boolean = result.claims["admin"] as Boolean
+            val isHost: Boolean = result.claims["Host"] as Boolean
+
+            if (isAdmin) {
+                val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, MyProfileAdmin())
+                transaction.disallowAddToBackStack()
+                transaction.commit()
+            } else if (isHost){
+                val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, MyProfileHost())
+                transaction.disallowAddToBackStack()
+                transaction.commit()
+            }
+            else {
+                val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragment_container, MyProfileFragment())
+                transaction.disallowAddToBackStack()
+                transaction.commit()
+            }
+
+
+        }
+    }
+
+    fun sendemailverification (user: FirebaseUser){
+        user!!.sendEmailVerification()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("Email verification", "Email sent.")
+                }
+            }
+    }
+
+    
 }
