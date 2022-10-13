@@ -12,33 +12,39 @@ import {
     if (user.email && !user.emailVerified && context.eventType.indexOf(':google.com') !== -1) {
         emailVerified = true      
     }
-    if (!user?.email?.includes('norpatt_cat@yahoo.com.mx')) {
+    if (user?.email?.includes('norpatt_cat@yahoo.com.mx')) {
+      console.log ("admin rol");
       return {
         emailVerified : emailVerified,
-        isAnonymous : true,
         customClaims: {
          emailsent : false,
           admin: true,
+          Host : false,
+          User : false,
         }
       }
     }
-    else if (!user?.email?.includes('lapatagorda@hotmail.com')) {
+    else if (user?.email?.includes('lapatagorda@hotmail.com')) {
+      console.log ("Host rol");
       return {
         emailVerified : emailVerified,
-        isAnonymous : true,
         customClaims: {
           emailsent : false,
           Host: true,
+          User: false,
+          admin: false,
         }
       }
     }
     else { 
+      console.log ("User rol");
       return {
         emailVerified : emailVerified, 
-        isAnonymous : true,
         customClaims: {
           emailsent : false,
           User: true,
+          admin: false,
+          Host: false,
         }
       }
     }
@@ -52,8 +58,8 @@ import {
      }
    });
  export const confirmemailsent = functions.https.onCall(async (data, context) => {
-  getAuth()
-  .setCustomUserClaims(context.auth.uid, { emailsent: true })
+  const auth = admin.auth();
+  auth.setCustomUserClaims(context.auth.uid, { emailsent: true })
   .then(() => {
     return 200
     // The new custom claims will propagate to the user's ID token the

@@ -26,6 +26,8 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.ktx.functions
 import com.google.firebase.ktx.Firebase
 import com.patriciasoco.myopinion.R
 import java.util.concurrent.TimeUnit
@@ -43,6 +45,7 @@ class LoginFragment : Fragment() {
     private lateinit var  sendcodeButton : Button
     private lateinit var  entercode : EditText
     private lateinit var  validateButton : Button
+    private lateinit var functions: FirebaseFunctions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +53,7 @@ class LoginFragment : Fragment() {
         // Initialize Firebase Auth
         auth = Firebase.auth
         oneTapClient = Identity.getSignInClient(this.requireActivity())
+        functions = Firebase.functions
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
@@ -314,9 +318,22 @@ class LoginFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d("Email verification", "Email sent.")
+                    confirmemailsent ()
                 }
             }
     }
+    private fun confirmemailsent (): Task<String> {
 
-    
+
+        return functions
+            .getHttpsCallable("confirmemailsent")
+
+            .call()
+            .continueWith { task ->
+                val result = task.result?.data as String
+                Firebase.auth.signOut()
+                result
+            }
+    }
+
 }

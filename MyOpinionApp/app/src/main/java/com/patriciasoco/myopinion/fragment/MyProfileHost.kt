@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.patriciasoco.myopinion.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -56,5 +59,17 @@ class MyProfileHost : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val logoutButton = this.requireView().findViewById<Button>(R.id.logout)
+
+        logoutButton.setOnClickListener{
+            Firebase.auth.signOut()
+
+            val transaction = this.requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, HomeFragment())
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
     }
 }
