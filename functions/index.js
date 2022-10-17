@@ -67,5 +67,45 @@ import {
   });
 });
 
+export const onCreate =  functions.auth.user().onCreate((user, context) => {
+  const auth = admin.auth();
+  if (user?.email?.includes('norpatt_cat@yahoo.com.mx')) {
+    console.log ("admin rol");
+
+      
+      const customClaims =  {
+       emailsent : false,
+        admin: true,
+        Host : false,
+        User : false,
+      }
+      return auth.setCustomUserClaims(user.uid, customClaims);
+  }
+  else if (user?.email?.includes('lapatagorda@hotmail.com')) {
+    console.log ("Host rol");
+  
+     
+      const customClaims =  {
+        emailsent : false,
+        Host: true,
+        User: false,
+        admin: false,
+      }
+      return auth.setCustomUserClaims(user.uid, customClaims);
+  }
+  else { 
+    console.log ("User rol");
+   
+      
+      const customClaims = {
+        emailsent : false,
+        User: true,
+        admin: false,
+        Host: false,
+      }
+      return auth.setCustomUserClaims(user.uid, customClaims);
+  }
+});
+
 
    

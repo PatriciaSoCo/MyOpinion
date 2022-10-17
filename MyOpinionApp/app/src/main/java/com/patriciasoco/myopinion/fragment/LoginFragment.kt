@@ -287,8 +287,9 @@ class LoginFragment : Fragment() {
             }
     }
     fun showmyprofile (user: FirebaseUser){
-        user.getIdToken(false).addOnSuccessListener { result ->
-            val isAdmin: Boolean = result.claims["admin"] as Boolean
+        user.getIdToken(true).addOnSuccessListener { result ->
+            Log.d("custom claims", result.claims.toString())
+            val isAdmin: Boolean = result.claims ["admin"] as Boolean
             val isHost: Boolean = result.claims["Host"] as Boolean
 
             if (isAdmin) {
