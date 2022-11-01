@@ -6,13 +6,14 @@ import {
     beforeUserCreated,
     beforeUserSignedIn,
   } from "firebase-functions/v2/identity";
+import { user } from "firebase-functions/v1/auth";
 
   export const beforeCreate =  functions.auth.user().beforeCreate((user, context) => {
     var emailVerified = false
     if (user.email && !user.emailVerified && context.eventType.indexOf(':google.com') !== -1) {
         emailVerified = true      
     }
-    if (user?.email?.includes('norpatt_cat@yahoo.com.mx')) {
+    if (user?.email?.includes('memorf@gmail.com')) {
       console.log ("admin rol");
       return {
         emailVerified : emailVerified,
@@ -24,7 +25,7 @@ import {
         }
       }
     }
-    else if (user?.email?.includes('lapatagorda@hotmail.com')) {
+    else if (user?.email?.includes('guillermorenteria85@gmail.com')) {
       console.log ("Host rol");
       return {
         emailVerified : emailVerified,
@@ -50,8 +51,8 @@ import {
     }
   });
   
-  export const beforesignedin = beforeUserSignedIn((event) => {
-    const user = event.data;
+  export const beforeSignIn = functions.auth.user().beforeSignIn((user, context) => {
+    
     if (user.email && !user.emailVerified && user.customClaims.emailsent) {
       throw new functions.https.HttpsError(
         'invalid-argument', 'The email needs to be verified before access is granted.');
@@ -59,7 +60,7 @@ import {
    });
  export const confirmemailsent = functions.https.onCall(async (data, context) => {
   const auth = admin.auth();
-  auth.setCustomUserClaims(context.auth.uid, { emailsent: true })
+  auth.setCustomUserClaims(context.auth.uid, { emailsent: true, admin: context.auth.token.admin, Host: context.auth.token.Host, User: context.auth.token.User })
   .then(() => {
     return 200
     // The new custom claims will propagate to the user's ID token the
@@ -67,45 +68,6 @@ import {
   });
 });
 
-export const onCreate =  functions.auth.user().onCreate((user, context) => {
-  const auth = admin.auth();
-  if (user?.email?.includes('norpatt_cat@yahoo.com.mx')) {
-    console.log ("admin rol");
-
-      
-      const customClaims =  {
-       emailsent : false,
-        admin: true,
-        Host : false,
-        User : false,
-      }
-      return auth.setCustomUserClaims(user.uid, customClaims);
-  }
-  else if (user?.email?.includes('lapatagorda@hotmail.com')) {
-    console.log ("Host rol");
-  
-     
-      const customClaims =  {
-        emailsent : false,
-        Host: true,
-        User: false,
-        admin: false,
-      }
-      return auth.setCustomUserClaims(user.uid, customClaims);
-  }
-  else { 
-    console.log ("User rol");
-   
-      
-      const customClaims = {
-        emailsent : false,
-        User: true,
-        admin: false,
-        Host: false,
-      }
-      return auth.setCustomUserClaims(user.uid, customClaims);
-  }
-});
 
 
    
