@@ -13,7 +13,7 @@ import { user } from "firebase-functions/v1/auth";
     if (user.email && !user.emailVerified && context.eventType.indexOf(':google.com') !== -1) {
         emailVerified = true      
     }
-    if (user?.email?.includes('memorf@gmail.com')) {
+    if (user?.email?.includes('lapatagorda@hotmail.com')) {
       console.log ("admin rol");
       return {
         emailVerified : emailVerified,
@@ -25,7 +25,7 @@ import { user } from "firebase-functions/v1/auth";
         }
       }
     }
-    else if (user?.email?.includes('guillermorenteria85@gmail.com')) {
+    else if (user?.email?.includes('norpatt_cat@yahoo.com.mx')) {
       console.log ("Host rol");
       return {
         emailVerified : emailVerified,
